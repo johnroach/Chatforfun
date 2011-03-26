@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+<title>Chat For Fun</title> 
+
+<style>
+#user {
+     position:absolute;
+     left:0px;
+     top:0px;
+ }
+</style>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script> 
+<script src="./nowjs/now.js"></script>
+
+<script type="text/javascript">
+document.onkeypress=getkeypressed(event);
+var startx=0;
+var starty=0;
+var muted=false;
+function getkeypressed(e) {
+	
+	var unicode=e.keyCode? e.keyCode : e.charCode ;
+	alert(unicode);
+	if(unicode=="100")
+	{
+		var new_startx=startx+1;
+		var new_starty=starty+0;
+		document.getElementById('user').style.left=new_startx+'px';
+		now.distributeMessage("@op@movement@#"+startx+","+starty+"#"+new_startx+","+new_starty+"");
+		startx=new_startx;
+		starty=new_starty;
+	}
+  }
+$(document).ready(function(){
+
+  
+
+  now.name = prompt("What's your name?", "");  
+  now.receiveMessage = function(name, message){
+    var s=message;
+    var display_message = false;
+    var does_it_contain_opearation = s.indexOf("@op@");
+    if(does_it_contain_opearation!=-1)
+	{//contains some sort of operation
+		var does_it_contain_movement = s.indexOf("@movement@");
+	        var does_it_contain_muted_user_list = s.indexOf("@muted_users@");	
+	}
+     $("#messages").append("<br>" + name + ": " + message);
+  }
+  
+  
+  $("#send-button").click(function(){
+    now.distributeMessage($("#text-input").val());
+    $("#text-input").val("");
+  });
+  
+});
+</script>
+</head> 
+ 
+<body onkeypress="getkeypressed(event);" > 
+<div id="online_users">
+
+</div>
+<div id="fun_area">
+<div id="user">
+<img src="http://localhost:81/metalslug_tank.png" width="100" style="margin:2px;float:left;" >
+</div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div id="messages" style="height:100px;overflow:scroll;"></div>
+<input type="text" id="text-input">
+<input type="button" value="Send" id="send-button">
+</body> 
+</html> 
